@@ -1,0 +1,40 @@
+header{
+  display: flex;
+  width: 100%;
+  background-color: grey;
+  border-bottom: 2px solid black;
+}
+
+header img{
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+header h2{
+  margin: auto;
+}
+
+nav{
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
+}
+
+nav button{
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+nav h2{
+  margin: auto;
+}
+
+aside{
+  border:1px solid black;
+  width: 300px;
+  text-align: center;
+}
