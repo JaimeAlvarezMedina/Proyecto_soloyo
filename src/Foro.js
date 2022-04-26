@@ -4,10 +4,11 @@ import React from 'react';
 
 function Entradas(props){
   return(
-    <article onClick={this.cambiar_pagina(props.id)}>
+    <article onClick={console.log(props.id)}>
       <h2>{props.Titulo}</h2>
       <p>{props.Cuerpo}</p>
     </article>
+       
   )
 }
 
@@ -15,7 +16,7 @@ class Foro extends React.Component {
 
   constructor(props){
       super(props);
-      this.state={value:"", noticia:[] }
+      this.state={value:"", articulo:[] }
       this.noticia=this.recoger_articulo.bind(this);
       this.cambiar_pagina=this.pasar_articulo.bind(this);
   }
@@ -34,9 +35,9 @@ class Foro extends React.Component {
       .then(
           (result)=>{
             this.setState({
-              noticia : result
+              articulo : result
             });
-            console.log(this.noticia);
+            console.log(this.articulo);
           },
           (error)=>{
               console.log(error);
@@ -69,7 +70,7 @@ class Foro extends React.Component {
         </aside>
 
         <main>
-          {this.state.noticia.map((partes)=><Entradas id={partes.ID_articulo} Titulo={partes.Titulo} Cuerpo={partes.Cuerpo} />)}
+          {this.state.articulo.map((partes)=><Entradas id={partes.ID_articulo} Titulo={partes.Titulo} Cuerpo={partes.Cuerpo} />)}
         </main>
 
       </div>
