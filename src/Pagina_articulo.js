@@ -38,7 +38,7 @@ class Articulo extends React.Component {
     render(){
         return (
             <div id='todo'>
-                {this.state.noticia.map((partes)=><article><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article> )}
+                {this.state.noticia.map((partes)=><div id='articulo'><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></div>)}
             </div>
         
         );

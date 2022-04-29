@@ -35,6 +35,26 @@ nav h2{
 
 aside{
   border:1px solid black;
-  width: 300px;
+  width: 13%;
   text-align: center;
+}
+
+main{
+  margin-left: 18%;
+}
+
+article{
+  border: 1px solid black;
+  border-radius: 25px;
+  width: 90%;
+  margin-bottom: 1%;
+}
+
+article h2{
+  padding-left: 20%;
+}
+
+article p{
+  padding-left: 20%;
+  overflow-x: hidden;
 }

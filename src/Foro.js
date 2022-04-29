@@ -51,6 +51,8 @@ class Foro extends React.Component {
       )
   }
 
+  
+
   render(){
     return (
       <div className="todo">
@@ -79,6 +81,11 @@ class Foro extends React.Component {
           {this.state.articulo.map((partes)=><article id={partes.ID_articulo} onClick={this.coger_id} key={partes.ID_articulo}><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article> )}
         </main>
 
+        <form enctype="multipart/form-data" action="http://localhost/php_insti/upload.php" method="POST">
+            <input type="hidden" name="MAX_FILE_SIZE" value="40000000" />
+          <p> Enviar mi archivo: <input name="subir_archivo" type="file" /></p>
+          <p> <input type="submit" value="Enviar Archivo" /></p>
+        </form>
       </div>
     );
   }
