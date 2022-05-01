@@ -56,5 +56,5 @@ article h2{
 
 article p{
   padding-left: 20%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
