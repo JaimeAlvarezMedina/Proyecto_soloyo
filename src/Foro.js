@@ -6,21 +6,14 @@ class Foro extends React.Component {
 
   constructor(props){
       super(props);
-      this.state={value:"", articulo:[], categoria:[], filtrado:[] };
+      this.state={value:"", articulo:[], categoria:[] };
       this.noticia=this.recoger_articulo.bind(this);
       this.todas_categorias=this.recoger_categorias.bind(this);
-      this.filtrar_categoria=this.filtrado_categorias(this);
+      // this.filtrar_categoria=this.filtrado_categorias(this);
       this.coger_id=this.pasar_pagina.bind(this);
   }
 
   pasar_pagina({currentTarget}) {  
-    localStorage.setItem('id_articulo',currentTarget.id);
-    window.location.href="/pagina_articulo";
-  }
-
-  
-
-  filtrado_categorias(currentTarget){
     var datos=new FormData();
     datos.append('nombre_categoria',currentTarget.id);
     fetch("http://localhost/php_insti/filtrar_categorias.php",{
@@ -30,8 +23,9 @@ class Foro extends React.Component {
     .then(res=>res.json())
     .then(
         (result)=>{
+          
           this.setState({
-            filtrado : result
+            articulo : result
           });
         },
         (error)=>{
@@ -39,6 +33,13 @@ class Foro extends React.Component {
         }
     )
   }
+
+  
+
+  // filtrado_categorias(currentTarget){
+  //   localStorage.setItem('id_articulo',currentTarget.id);
+  //   window.location.href="/pagina_articulo";
+  // }
 
   recoger_categorias(){
     var datos=new FormData();
@@ -106,12 +107,12 @@ class Foro extends React.Component {
 
           <aside>
             <h3>Categorías</h3>
-            {this.state.categoria.map((nombre)=><li id={nombre.Categoria} onClick={this.coger_id}>{nombre.Categoria}</li> )}
+            {this.state.categoria.map((nombre)=><li id={nombre.Categoria} key={nombre.Categoria} onClick={this.coger_id}>{nombre.Categoria}</li> )}
 
           </aside>
 
           <main id="articulos">
-            {this.state.articulo.map((partes)=><article id={partes.ID_articulo} onClick={this.coger_id} key={partes.ID_articulo}><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article>)}
+            {this.state.articulo.map((partes)=><article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={console.log("has clickado")}><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article>)}
           </main>
 
           <form encType="multipart/form-data" action="http://localhost/php_insti/upload.php" method="POST">
