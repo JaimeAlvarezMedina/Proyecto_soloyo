@@ -11,11 +11,36 @@ class Foro extends React.Component {
       super(props);
       this.state={value:""};
       this.seleccion=this.seleccion_opcion.bind(this);
+      this.texto=this.opcion_texto.bind(this);
   }
 
   seleccion_opcion(){
+    var elemento_antiguo=document.getElementById("imagen_anadir");
+
+    var elemento_padre=elemento_antiguo.parentNode;
+
+    var elemento_nuevo=document.createElement("div");
+    elemento_nuevo.setAttribute("id","seleccionar_opcion");
+
+    var imagentexto=document.createElement("img");
+    imagentexto.setAttribute("id","foto_texto");
+    imagentexto.setAttribute("src",Imagen_texto);
+    imagentexto.onclick=console.log("Hola");
+    elemento_nuevo.appendChild(imagentexto);
+
+    var imagenfoto=document.createElement("img");
+    imagenfoto.setAttribute("id","foto_paisaje");
+    imagenfoto.setAttribute("src",Imagen_foto);
+    elemento_nuevo.appendChild(imagenfoto);
+
+    elemento_padre.replaceChild(elemento_nuevo,elemento_antiguo);
+
+    
+  }
+
+  opcion_texto(){
     document.getElementById('marco_anadir').innerHTML="";
-    document.getElementById('marco_anadir').innerHTML="<div id='seleccionar_opcion'><img src='"+Imagen_texto+"' onClick={this.seleccion}></img><img src='"+Imagen_foto+"' onClick={this.seleccion}></img></div>";
+    document.getElementById('marco_anadir').innerHTML="<div><textarea></textarea></div>";
   }
 
   render(){
@@ -37,7 +62,7 @@ class Foro extends React.Component {
             </div>
             
         </main>
-
+        
       </div>
     );
   }
