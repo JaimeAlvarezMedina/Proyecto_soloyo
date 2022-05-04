@@ -23,9 +23,10 @@ class Foro extends React.Component {
     elemento_nuevo.setAttribute("id","seleccionar_opcion");
 
     var imagentexto=document.createElement("img");
+    imagentexto.onclick=console.log("Hola");
     imagentexto.setAttribute("id","foto_texto");
     imagentexto.setAttribute("src",Imagen_texto);
-    imagentexto.onclick=console.log("Hola");
+    
     elemento_nuevo.appendChild(imagentexto);
 
     var imagenfoto=document.createElement("img");
