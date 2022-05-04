@@ -11,6 +11,7 @@ class Foro extends React.Component {
       this.todas_categorias=this.recoger_categorias.bind(this);
       this.filtrar_categoria=this.filtrado_categorias.bind(this);
       this.coger_id=this.pasar_pagina.bind(this);
+      this.crear_post=this.ir_crear_post.bind(this);
   }
 
   pasar_pagina({currentTarget}) { 
@@ -18,7 +19,9 @@ class Foro extends React.Component {
     window.location.href="/pagina_articulo";
   }
 
-  
+  ir_crear_post(){
+    window.location.href="/crear_post";
+  }
 
   filtrado_categorias({currentTarget}){
     var datos=new FormData();
@@ -102,7 +105,7 @@ class Foro extends React.Component {
         <div id="cuerpo">
           <nav>
             <h2>Foro</h2>
-            <button type="button" className="btn btn-outline-secondary">Crear Post</button>
+            <button type="button" onClick={this.crear_post} className="btn btn-outline-secondary">Crear Post</button>
           </nav>
 
           <aside>
