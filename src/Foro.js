@@ -1,17 +1,19 @@
 import './Foro.css';
 import imagen_perfil from './Imagenes/avatar-1-48.png'
+
 import React from 'react';
 
 class Foro extends React.Component {
 
   constructor(props){
       super(props);
-      this.state={value:"", articulo:[], categoria:[] };
+      this.state={value:"", articulo:[], categoria:[],imagen_prueba:'1-1.png' };
       this.noticia=this.recoger_articulo.bind(this);
       this.todas_categorias=this.recoger_categorias.bind(this);
       this.filtrar_categoria=this.filtrado_categorias.bind(this);
       this.coger_id=this.pasar_pagina.bind(this);
       this.crear_post=this.ir_crear_post.bind(this);
+      this.imagen=this.añadir_imagen.bind(this);
   }
 
   pasar_pagina({currentTarget}) { 
@@ -87,6 +89,18 @@ class Foro extends React.Component {
   componentDidMount(){
     this.noticia();
     this.todas_categorias();
+    this.imagen();
+
+  }
+
+  añadir_imagen(){
+    const cargarImagen = require.context("./upload", true);
+
+    var elemento_padre=document.getElementById("articulos").parentNode;
+    var elemento_nuevo=document.createElement("img");
+    elemento_nuevo.setAttribute("src",cargarImagen('./'+this.state.imagen_prueba));
+    
+    elemento_padre.appendChild(elemento_nuevo);
   }
 
   render(){
