@@ -77,6 +77,9 @@ class Foro extends React.Component {
  
     elemento_padre.replaceChild(elemento_nuevo,elemento_antiguo);
 
+    
+
+    
   }
 
   render(){
