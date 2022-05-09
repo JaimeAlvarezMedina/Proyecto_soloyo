@@ -4,15 +4,18 @@ import imagen_perfil from './Imagenes/avatar-1-48.png';
 import Imagen_mas from './Imagenes/Boton+.png';
 import Imagen_foto from './Imagenes/Paisaje.png';
 import Imagen_texto from './Imagenes/Boton_texto.png';
-
+import ReactDOM from 'react-dom';
 class Foro extends React.Component {
 
   constructor(props){
       super(props);
-      this.state={value:""};
+      this.state={value:"",imagen_prueba:''};
       this.seleccion=this.seleccion_opcion.bind(this);
       this.texto=this.opcion_texto.bind(this);
       this.imagen=this.opcion_imagen.bind(this);
+      this.imagen=this.añadir_imagen.bind(this);
+      this.insertar=this.insertar.bind(this);
+      this.fileInput = React.createRef();
   }
 
   seleccion_opcion(){
@@ -46,8 +49,10 @@ class Foro extends React.Component {
     var elemento_padre=elemento_antiguo.parentNode;
 
     var elemento_nuevo=document.createElement("div");
-    var imagen_subir=document.createElement("");//AQUI HAY QUE PONER LO QUE VA DENTRO
-    elemento_nuevo.appendChild(imagen_subir);
+    var escribir=document.createElement("textarea");
+    escribir.setAttribute("class","form-control");
+    escribir.setAttribute("rows","4");
+    elemento_nuevo.appendChild(escribir);
 
     var opciones=document.createElement("img");
     opciones.setAttribute("id","imagen_anadir");
@@ -56,6 +61,7 @@ class Foro extends React.Component {
     elemento_nuevo.appendChild(opciones);
  
     elemento_padre.replaceChild(elemento_nuevo,elemento_antiguo);
+
   }
 
   opcion_texto(){
@@ -77,11 +83,43 @@ class Foro extends React.Component {
  
     elemento_padre.replaceChild(elemento_nuevo,elemento_antiguo);
 
-    
-
-    
   }
+  insertar(){
+   
+    var datos = new FormData;
+    datos.append('archivo', this.fileInput.current.files[0])
+    
+    fetch("http://localhost/Probar_codigo/Probarsubirimg.php",{
+    method:'POST',
+    body: datos
+  })
+  .then(
+    res =>
+    res.json()
+    
+  )
+  .then(
+    (result)=>{
+      this.setState({imagen_prueba: result});
+      this.imagen()
+    }
+  )
+  .then(
+   
+    
+  )
+  
+ 
+  }
+  añadir_imagen(){
+    const cargarImagen = require.context("./upload", true);
 
+    var elemento_padre=document.getElementById("tt").parentNode;
+    var elemento_nuevo=document.createElement("img");
+    elemento_nuevo.setAttribute("src",cargarImagen('./'+this.state.imagen_prueba));
+    
+    elemento_padre.appendChild(elemento_nuevo);
+  }
   render(){
     return (
       <div className="crear_post">
@@ -99,12 +137,26 @@ class Foro extends React.Component {
             <div id='marco_anadir'>
                 <img src={Imagen_mas} id="imagen_anadir" onClick={this.seleccion}></img>
             </div>
-            
+            <form >
+        <label class="btn btn-default">
+        <img src={Imagen_foto}/>
+          <input type="file" ref={this.fileInput} hidden></input>
+        </label>
+        
+        <br />
+        
+      </form>
+      
+      <button onClick={this.insertar} type="submit">Submit</button>
+            <div id="tt"></div>
         </main>
         
       </div>
     );
   }
 }
-
+ReactDOM.render(
+  <Foro />,
+  document.getElementById('root')
+);
 export default Foro;
