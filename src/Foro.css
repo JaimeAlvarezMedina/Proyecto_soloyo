@@ -58,3 +58,7 @@ article p{
   padding-left: 20%;
   overflow: hidden;
 }
+
+#limpiar_categorias{
+  display: none;
+}

@@ -108,10 +108,10 @@ class Foro extends React.Component {
     .then(res=>res.json())
     .then(
         (result)=>{
-          
           this.setState({
             articulo : result
           });
+          document.getElementById('limpiar_categorias').style.display="block";
         },
         (error)=>{
             console.log(error);
@@ -147,11 +147,11 @@ class Foro extends React.Component {
       .then(res=>res.json())
       .then(
           (result)=>{
-
             
             this.setState({
               articulo : result
             });
+            document.getElementById('limpiar_categorias').style.display="none";
           },
           (error)=>{
               console.log(error);
@@ -207,7 +207,9 @@ class Foro extends React.Component {
           <aside>
             <h3>Categorías</h3>
             {this.state.categoria.map((nombre)=><li id={nombre.Categoria} key={nombre.Categoria} onClick={this.filtrar_categoria}>{nombre.Categoria}</li> )}
-
+            <div id='limpiar_categorias'>
+              <li onClick={this.noticia}>Limpiar_categoria</li>
+            </div>
           </aside>
 
           <main id="articulos">

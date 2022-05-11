@@ -15,7 +15,7 @@ class Anadir_admin extends React.Component{
     var datos= new FormData();
     datos.append('usuario', this.state.usuario);
       datos.append('contra', this.state.contra);
-    fetch("http://localhost/php_insti/anadir_usuario.php",{
+    fetch("http://localhost/php_insti/anadir_admin.php",{
         method : "POST",
         body: datos
     })
@@ -27,6 +27,9 @@ class Anadir_admin extends React.Component{
                   this.setState({error:"El usuario no esta disponible"});
                 }
                 this.setState({contra:""});
+                if(result=="Disponible"){
+                    window.location.href="/foro";
+                }
             },
             (error)=>{
                 console.log(error);
