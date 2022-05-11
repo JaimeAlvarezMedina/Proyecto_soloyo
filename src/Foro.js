@@ -2,6 +2,20 @@ import './Foro.css';
 import imagen_perfil from './Imagenes/avatar-1-48.png'
 import React from 'react';
 
+function Articulos(props){
+  if(localStorage.getItem("tipo")=="admin"){
+    return(
+      <article id={props.ID_articulo}  key={props.ID_articulo} ><h2>{props.Titulo}</h2><p>{props.Cuerpo}</p></article>
+    )
+  }
+  else{
+    return(
+      <article id={props.ID_articulo}  key={props.ID_articulo} ><h2>{props.Titulo}</h2><p>{props.Cuerpo}</p></article>
+    )
+  }
+  
+}
+
 function Perfil(props){
   localStorage.setItem("tipo",props.id);
 
@@ -181,10 +195,9 @@ class Foro extends React.Component {
   }
 
   componentDidMount(){
-    this.noticia();
     this.todas_categorias();
     this.coger_usuario();
-
+    this.noticia();
   }
 
 
@@ -213,7 +226,7 @@ class Foro extends React.Component {
           </aside>
 
           <main id="articulos">
-            {this.state.articulo.map((partes)=><article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id}><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article>)}
+            {this.state.articulo.map((partes)=><Articulos id={partes.ID_articulo}  key={partes.ID_articulo} Titulo={partes.Titulo} Cuerpo={partes.Cuerpo}/>)}
           </main>
 
           <div id='imagen'></div>
