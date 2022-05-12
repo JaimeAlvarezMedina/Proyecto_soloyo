@@ -264,7 +264,6 @@ class Foro extends React.Component {
                   )}
                 </div>
             }
-            {/* {this.state.articulo.map((partes)=><article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id}><h2>{partes.Titulo}</h2><p>{partes.Cuerpo}</p></article>)} */}
           </main>
 
           <div id='imagen'></div>
