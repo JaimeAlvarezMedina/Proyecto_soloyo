@@ -59,6 +59,20 @@ article p{
   overflow: hidden;
 }
 
-#limpiar_categorias{
-  display: none;
+#boton_eliminar{
+  right: 0px;
+}
+
+#articulo_boton{
+  border: 1px solid black;
+  border-radius: 25px;
+  width: 90%;
+  margin-bottom: 1%;
+}
+
+#articulo_boton article{
+  border: 0px;
+  border-radius: 25px;
+  width: 100%;
+  margin-bottom: 1%;
 }
