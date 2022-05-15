@@ -45,8 +45,4 @@ class Articulo extends React.Component {
     }
 }
 
-  
-  
-
-
 export default Articulo;

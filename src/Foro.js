@@ -50,7 +50,7 @@ class Foro extends React.Component {
       this.noticia=this.recoger_articulo.bind(this);
       this.todas_categorias=this.recoger_categorias.bind(this);
       this.filtrar_categoria=this.filtrado_categorias.bind(this);
-      this.coger_id=this.pasar_pagina.bind(this);
+      this.ir_post=this.pasar_pagina.bind(this);
       this.crear_post=this.ir_crear_post.bind(this);
       this.anadir_admin=this.ir_anadir_admin.bind(this);
       this.coger_usuario=this.coger_datos_usuario.bind(this);
@@ -247,7 +247,7 @@ class Foro extends React.Component {
               ? <div>
                   {this.state.articulo.map((partes)=>
                     <div id='articulo_boton'>
-                      <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id}>
+                      <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.ir_post}>
                         <h2>{partes.Titulo}</h2>
                         <p>{partes.Cuerpo}</p>
                       </article>
@@ -257,7 +257,7 @@ class Foro extends React.Component {
                 </div>
               : <div>
                   {this.state.articulo.map((partes)=>
-                    <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id}>
+                    <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.ir_post}>
                       <h2>{partes.Titulo}</h2>
                       <p>{partes.Cuerpo}</p>
                     </article>
