@@ -41,7 +41,7 @@ class Login extends React.Component{
   registrar(){//Añade un usuario en la base de datos
     var datos= new FormData();
     datos.append('usuario', this.state.usuario);
-      datos.append('contra', this.state.contra);
+    datos.append('contra', this.state.contra);
     fetch("http://localhost/php_insti/anadir_usuario.php",{
         method : "POST",
         body: datos
