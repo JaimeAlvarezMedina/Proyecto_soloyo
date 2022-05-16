@@ -14,7 +14,6 @@ class Creacion_articulos extends React.Component {
       this.seleccion=this.seleccion_opcion.bind(this);
       this.texto=this.opcion_texto.bind(this);
       this.imagen=this.opcion_imagen.bind(this);
-      this.subir_foto=this.subir_imagen.bind(this);
       this.subir_post=this.crear_post.bind(this);
   }
 
@@ -22,11 +21,17 @@ class Creacion_articulos extends React.Component {
 
   crear_post(){
     if(texto==undefined){
-      var texto="";
+      var texto=[];
+    }
+    if(contador==undefined){
+      var contador=0;
     }
     
-    for(var i=0;i<this.state.contador;i++){
+    for(var i=0;i<=this.state.contador;i++){
+      // console.log(i);
+      console.log(contador);
       if(document.getElementById("img-"+i)!=null){
+        
         var datos= new FormData();
         datos.append('usuario',localStorage.getItem("usuario"));
         datos.append('subir_archivo', document.getElementById("img-"+i).files[0]);
@@ -37,22 +42,28 @@ class Creacion_articulos extends React.Component {
         .then(res=>res.json())
             .then(
                 (result)=>{
-                  texto=texto+result+"/-/";
+                  console.log("img"+i);
+                  texto[contador]=result;
                   console.log(texto);
+                  
                 },
                 (error)=>{
                     console.log(error);
                 }
             )
-        
-        
+        contador++;
       }
-      if(document.getElementById("txt-"+i)!=null){
-        texto=texto + document.getElementById("txt-"+i).value + "/-/";
-        
-        console.log(texto);
-      }
+      
     }
+    // for(var i=0;i<this.state.contador;i++){
+    //   if(document.getElementById("txt-"+i)!=null){
+    //     console.log("txt"+i);
+    //     texto[i]=document.getElementById("txt-"+i).value;
+        
+        
+    //     console.log(texto);
+    //   }
+    // }
   }
 
   seleccion_opcion(){
@@ -78,26 +89,6 @@ class Creacion_articulos extends React.Component {
     elemento_nuevo.appendChild(imagenfoto);
 
     elemento_padre.replaceChild(elemento_nuevo,elemento_antiguo);
-  }
-
-  subir_imagen(contador){
-    var datos= new FormData();
-    datos.append('usuario',localStorage.getItem("usuario"));
-    datos.append('subir_archivo', document.getElementById("img-"+contador).files[0]);
-    fetch("http://localhost/php_insti/upload.php",{
-        method : "POST",
-        body: datos
-    })
-    .then(res=>res.json())
-        .then(
-            (result)=>{
-              this.setState({nombre_imagen:result});
-              
-            },
-            (error)=>{
-                console.log(error);
-            }
-        )
   }
 
   opcion_imagen(){
