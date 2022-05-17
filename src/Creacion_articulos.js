@@ -5,6 +5,9 @@ import Imagen_mas from './Imagenes/Boton+.png';
 import Imagen_foto from './Imagenes/Paisaje.png';
 import Imagen_texto from './Imagenes/Boton_texto.png';
 
+if(texto==undefined){
+  var texto=[];
+}
 
 class Creacion_articulos extends React.Component {
 
@@ -15,56 +18,97 @@ class Creacion_articulos extends React.Component {
       this.texto=this.opcion_texto.bind(this);
       this.imagen=this.opcion_imagen.bind(this);
       this.subir_post=this.crear_post.bind(this);
+      this.subir_datos=this.subir_base_datos.bind(this);
   }
 
-  
-
-  crear_post(){
-    if(texto==undefined){
-      var texto=[];
-    }
-    if(contador==undefined){
-      var contador=0;
-    }
-    
-    for(var i=0;i<=this.state.contador;i++){
-      // console.log(i);
-      console.log(contador);
-      if(document.getElementById("img-"+i)!=null){
-        
-        var datos= new FormData();
-        datos.append('usuario',localStorage.getItem("usuario"));
-        datos.append('subir_archivo', document.getElementById("img-"+i).files[0]);
-        fetch("http://localhost/php_insti/upload.php",{
-            method : "POST",
-            body: datos
+  subir_base_datos(){
+    var datos= new FormData();
+        datos.append('creador',localStorage.getItem("usuario"));
+        datos.append('cuerpo',texto);
+        fetch("http://localhost/php_insti/subir_post.php",{
+          method : "POST",
+          body: datos
         })
         .then(res=>res.json())
             .then(
                 (result)=>{
-                  console.log("img"+i);
-                  texto[contador]=result;
-                  console.log(texto);
+                  if(result=="Correcto"){
+                    // window.location.href="/foro";
+                  }
                   
                 },
                 (error)=>{
                     console.log(error);
                 }
             )
-        contador++;
+  }
+
+  crear_post(contador){
+    
+
+      if(document.getElementById("img-"+contador)!=null){
+        
+        var datos= new FormData();
+        datos.append('usuario',localStorage.getItem("usuario"));
+        datos.append('subir_archivo', document.getElementById("img-"+contador).files[0]);
+        fetch("http://localhost/php_insti/upload.php",{
+          method : "POST",
+          body: datos
+        })
+        .then(res=>res.json())
+            .then(
+                (result)=>{
+                  console.log(contador);
+                  texto[contador]=result;
+                  console.log(texto);
+                  console.log(contador);
+                },
+                (error)=>{
+                    console.log(error);
+                }
+            )
+     
+      }
+      if(document.getElementById("txt-"+contador)!=null){
+        console.log("txt"+contador);
+        texto[contador]=document.getElementById("txt-"+contador).value;
+        console.log(texto);
       }
       
+      
+
+      if(document.getElementById("img-"+(contador+1))!=null || document.getElementById("txt-"+(contador+1))!=null){//Si no existe ninguno de estos elementos en el documentop no sigue
+        this.subir_post(contador+1);
+      }
+      else{
+        setTimeout(function(){
+          var datos= new FormData();
+          datos.append('creador',localStorage.getItem("usuario"));
+          datos.append('cuerpo',texto.join("//-//"));
+          fetch("http://localhost/php_insti/subir_post.php",{
+            method : "POST",
+            body: datos
+          })
+          .then(res=>res.json())
+              .then(
+                  (result)=>{
+                    if(result=="Correcto"){
+                      window.location.href="/foro";
+                    }
+                    
+                  },
+                  (error)=>{
+                      console.log(error);
+                  }
+              )
+        }, 2000);
+      }
+      
+
     }
-    // for(var i=0;i<this.state.contador;i++){
-    //   if(document.getElementById("txt-"+i)!=null){
-    //     console.log("txt"+i);
-    //     texto[i]=document.getElementById("txt-"+i).value;
-        
-        
-    //     console.log(texto);
-    //   }
-    // }
-  }
+    
+    
+  
 
   seleccion_opcion(){
     var elemento_antiguo=document.getElementById("imagen_anadir");
@@ -169,7 +213,7 @@ class Creacion_articulos extends React.Component {
             
         </main>
         <footer>
-          <button onClick={this.subir_post}>Crear post</button>
+          <button onClick={this.subir_post.bind(this,0)}>Crear post</button>
         </footer>
       </div>
     );

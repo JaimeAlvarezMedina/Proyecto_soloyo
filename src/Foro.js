@@ -2,20 +2,6 @@ import './Foro.css';
 import imagen_perfil from './Imagenes/avatar-1-48.png'
 import React from 'react';
 
-function Articulos(props){
-  if(localStorage.getItem("tipo")=="admin"){
-    return(
-      <article id={props.ID_articulo}  key={props.ID_articulo} ><h2>{props.Titulo}</h2><p>{props.Cuerpo}</p></article>
-    )
-  }
-  else{
-    return(
-      <article id={props.ID_articulo}  key={props.ID_articulo} ><h2>{props.Titulo}</h2><p>{props.Cuerpo}</p></article>
-    )
-  }
-  
-}
-
 function Perfil(props){
   localStorage.setItem("tipo",props.id);
 
@@ -68,10 +54,12 @@ class Foro extends React.Component {
       this.coger_usuario=this.coger_datos_usuario.bind(this);
       this.funcion=this.añadir_funcion.bind(this);
       this.f=this.funciones.bind(this);
+      this.borrar=this.borrar_publicacion.bind(this);
   }
 
   pasar_pagina({currentTarget}) { 
     localStorage.setItem('id_articulo',currentTarget.id);
+
     window.location.href="/pagina_articulo";
   }
 
@@ -81,6 +69,28 @@ class Foro extends React.Component {
 
   ir_anadir_admin(){
     window.location.href="/anadir_admin";
+  }
+
+  borrar_publicacion({currentTarget}){
+    var datos=new FormData();
+    datos.append('id_publicacion',currentTarget.id);
+      fetch("http://localhost/php_insti/borrar_publicacion.php",{
+          method:"POST",
+          body:datos
+      })
+      .then(res=>res.json())
+      .then(
+          (result)=>{
+            if(result=="Correcto"){
+              this.noticia();
+              this.todas_categorias();
+            }
+            
+          },
+          (error)=>{
+              console.log(error);
+          }
+      )
   }
 
   coger_datos_usuario(){
@@ -180,16 +190,19 @@ class Foro extends React.Component {
 
   añadir_funcion(){
     if(localStorage.getItem("usuario")!=""){
-      var elemento_cerrar=document.getElementById("cerrar_sesion");
-      elemento_cerrar.onclick=this.f;
+      
       
       if(localStorage.getItem("tipo")=="admin"){
         var elemento_admin=document.getElementById("anadir_admin");
         elemento_admin.onclick=this.anadir_admin;
+        var elemento_cerrar=document.getElementById("cerrar_sesion");
+        elemento_cerrar.onclick=this.f;
       }
       if(localStorage.getItem("tipo")=="cliente"){
         var elemento_crear=document.getElementById("crear_post");
         elemento_crear.onclick=this.crear_post;
+        var elemento_cerrar=document.getElementById("cerrar_sesion");
+        elemento_cerrar.onclick=this.f;
       }
     }
   }
@@ -198,10 +211,18 @@ class Foro extends React.Component {
     this.todas_categorias();
     this.coger_usuario();
     this.noticia();
+    localStorage.setItem("cuerpo","");
   }
 
 
   render(){
+
+    var admin = false;
+    
+    if(localStorage.getItem("tipo")=="admin"){
+      admin=true;
+    }
+    
     return (
       <div className="todo" onMouseEnter={this.funcion}>
 
@@ -226,7 +247,29 @@ class Foro extends React.Component {
           </aside>
 
           <main id="articulos">
-            {this.state.articulo.map((partes)=><Articulos id={partes.ID_articulo}  key={partes.ID_articulo} Titulo={partes.Titulo} Cuerpo={partes.Cuerpo}/>)}
+            
+          {admin
+              ? <div>
+                  {this.state.articulo.map((partes)=>
+                    <div id='articulo_boton'>
+                      <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id} value={partes.Cuerpo}>
+                        <h2>{partes.Titulo}</h2>
+                        <p>{partes.Cuerpo}</p>
+                      </article>
+                      <button id={partes.ID_articulo} onClick={this.borrar}>Borrar publicación</button>
+                    </div>
+                  )}
+                </div>
+
+              : <div>
+                  {this.state.articulo.map((partes)=>
+                    <article id={partes.ID_articulo}  key={partes.ID_articulo} onClick={this.coger_id} value={partes.Cuerpo}>
+                      <h2>{partes.Titulo}</h2>
+                      <p>{partes.Cuerpo}</p>
+                    </article>
+                  )}
+                </div>
+            }
           </main>
 
           <div id='imagen'></div>
