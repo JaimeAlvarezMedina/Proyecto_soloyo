@@ -13,7 +13,7 @@ class Creacion_articulos extends React.Component {
 
   constructor(props){
       super(props);
-      this.state={value:"", contador:0, articulo:"",nombre_imagen:""};
+      this.state={value:"", contador:0, articulo:"",nombre_imagen:"",error:""};
       this.seleccion=this.seleccion_opcion.bind(this);
       this.texto=this.opcion_texto.bind(this);
       this.imagen=this.opcion_imagen.bind(this);
@@ -24,7 +24,9 @@ class Creacion_articulos extends React.Component {
   subir_base_datos(){
     var datos= new FormData();
         datos.append('creador',localStorage.getItem("usuario"));
-        datos.append('cuerpo',texto);
+        datos.append('cuerpo',texto.join('//-//'));
+        datos.append('titulo',document.getElementById("titulo").value);
+        datos.append('categoria',document.getElementById("categoria").value);
         fetch("http://localhost/php_insti/subir_post.php",{
           method : "POST",
           body: datos
@@ -33,7 +35,7 @@ class Creacion_articulos extends React.Component {
             .then(
                 (result)=>{
                   if(result=="Correcto"){
-                    // window.location.href="/foro";
+                    window.location.href="/foro";
                   }
                   
                 },
@@ -45,7 +47,7 @@ class Creacion_articulos extends React.Component {
 
   crear_post(contador){
     
-
+    if((document.getElementById("img-"+0)!=null || document.getElementById("txt-"+0)!=null) || document.getElementById("titulo").value=="" || document.getElementById("categoria").value==""){
       if(document.getElementById("img-"+contador)!=null){
         
         var datos= new FormData();
@@ -81,31 +83,17 @@ class Creacion_articulos extends React.Component {
         this.subir_post(contador+1);
       }
       else{
-        setTimeout(function(){
-          var datos= new FormData();
-          datos.append('creador',localStorage.getItem("usuario"));
-          datos.append('cuerpo',texto.join("//-//"));
-          fetch("http://localhost/php_insti/subir_post.php",{
-            method : "POST",
-            body: datos
-          })
-          .then(res=>res.json())
-              .then(
-                  (result)=>{
-                    if(result=="Correcto"){
-                      window.location.href="/foro";
-                    }
-                    
-                  },
-                  (error)=>{
-                      console.log(error);
-                  }
-              )
-        }, 2000);
+        setTimeout(this.subir_datos, 2000);
       }
-      
-
     }
+    else{
+      var elemento=document.getElementById("alerta");
+      elemento.setAttribute("role","alert");
+      elemento.setAttribute("class","alert alert-danger");
+      this.setState({error:"Necesita introducir titulo,contenido y categoría en el post para subirlo"});
+    }
+
+  }
     
     
   
@@ -198,7 +186,7 @@ class Creacion_articulos extends React.Component {
       <div className="crear_post">
 
         <header>
-          <h2>Easterworld</h2>
+          <h2 onClick={()=>window.location.href="/foro"}>Easterworld</h2>
           <img src={imagen_perfil} className="dropdown-toggle" data-bs-toggle="dropdown"></img>
             <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuDark">
               <li><a className="dropdown-item" href="#">Mi cuenta</a></li>
@@ -207,13 +195,16 @@ class Creacion_articulos extends React.Component {
         </header>
 
         <main>
+          <input type="text" id='titulo' placeholder='Introduzca el Titulo'/>
             <div id='marco_anadir'>
                 <img src={Imagen_mas} id="imagen_anadir" onClick={this.seleccion}></img>
             </div>
+          <input type='text' id="categoria" placeholder='Introduzca la categoria'/>
             
         </main>
         <footer>
           <button onClick={this.subir_post.bind(this,0)}>Crear post</button>
+          <div id='alerta'>{this.state.error}</div>
         </footer>
       </div>
     );

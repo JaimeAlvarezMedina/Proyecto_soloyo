@@ -211,7 +211,7 @@ class Foro extends React.Component {
     this.todas_categorias();
     this.coger_usuario();
     this.noticia();
-    localStorage.setItem("cuerpo","");
+    localStorage.removeItem("cuerpo");
   }
 
 
